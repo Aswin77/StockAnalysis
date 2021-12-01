@@ -1,0 +1,114 @@
+{% extends 'home/home.html' %}
+
+{% block content %}
+    <div class="container" xmlns="http://www.w3.org/1999/html">
+        <div class="container mt-4 mb-4">
+            <form action="" method="post">
+                {% csrf_token %}
+                <!-- Search Bar for stock search -->
+                <div class="row my-2">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4 text-end">
+                        <div class="input-group">
+                            <input type="text" class="form-control p-3" placeholder="Search stocks" name="search">
+                            <button class="btn btn-primary" name="search_stock" type="submit">Go!</button>
+                        </div>
+                    </div>
+                    <div class="col-md-4"></div>
+                </div>
+            </form>
+        </div>
+        <div class="album py-5">
+            <div class="container">
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                    {% for company in companies %}
+                        <div class="col">
+                            <div class="card shadow-sm stocks-card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <a class="card-title company-security" href="../../../main/stock/{{ company.ticker }}"
+                                               >{{ company.security }}</a>
+                                            <p class="card-text">{{ company.ticker }}</p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="d-flex justify-content-end align-items-center">
+                                                <div class="btn-group">
+                                                    <form action="" method="post">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="ticker" value="{{ company.ticker }}">
+                                                        <input type="hidden" name="security"
+                                                               value="{{ company.security }}">
+
+                                                        {% if company.is_in_watchlist %}
+                                                            <button class="btn btn-danger" name="remove_stock"
+                                                                    type="submit"
+                                                                    class="btn btn-sm btn-outline-danger mx-2">
+                                                                <i class='bx bxs-bookmark-minus'></i>
+                                                            </button>
+                                                        {% else %}
+                                                            <button class="btn btn-success" name="add_stock"
+                                                                    type="submit"
+                                                                    class="btn btn-sm btn-outline-primary mx-2"><i
+                                                                    class='bx bxs-bookmark-plus'></i>
+                                                            </button>
+                                                        {% endif %}
+                                                    </form>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            {#        {% for company in companies %}#}
+            {#                <div class="card col-4 stocks-card mb-2">#}
+            {#                        <div class="card-body">#}
+            {#                            <a href="../../../main/stock/{{ company.ticker }}">#}
+            {#                                <h4 class="card-title">{{ company.security }}</h4>#}
+            {#                            </a>#}
+            {#                            <h6 class="card-subtitle mb-2 text-muted">{{ company.ticker }}</h6>#}
+            {#                            <a href="{{ company.yahoo_urls }}" class="card-link">Yahoo</a>#}
+            {#                            <div class="text-end">#}
+            {#                                <!-- Save the stock -->#}
+            {#                                <form action="" method="post">#}
+            {#                                    {% csrf_token %}#}
+            {#                                    <input type="hidden" name="ticker" value="{{ company.ticker }}">#}
+            {#                                    <input type="hidden" name="security" value="{{ company.security }}">#}
+            {#                                    <!-- Remove is its in a watchlist or else add it -->#}
+            {#                                    {% if company.is_in_watchlist %}#}
+            {#                                        <button class="btn btn-danger" name="remove_stock" type="submit">Remove</button>#}
+            {#                                    {% else %}#}
+            {#                                        <button class="btn btn-success" name="add_stock" type="submit">Add</button>#}
+            {#                                    {% endif %}#}
+            {#                                    <!-- {% if watchlist %}#}
+            {#                                        {% for list in watchlist %}#}
+            {#                                            {% if list.ticker == company.ticker %}#}
+            {#                                                <button class="btn btn-danger" name="remove_stock" type="submit">Remove</button>#}
+            {#                                            {% else %}#}
+            {#                                                <button class="btn btn-primary" name="add-to-watchlist" type="submit">Add</button>#}
+            {#                                                {% endif %}#}
+            {#                                        {% endfor %}#}
+            {#                                    {% else %}#}
+            {#                                    <button class="btn btn-primary" name="add-to-watchlist" type="submit">Add</button>#}
+            {#                                    {% endif %} -->#}
+            {##}
+            {#                                </form>#}
+            {#                            </div>#}
+            {#                        </div>#}
+            {#                    <!-- </a> -->#}
+            {#                </div>#}
+            {##}
+            {##}
+            {#        {% endfor %}#}
+        </div>
+    </div>
+{% endblock %}
