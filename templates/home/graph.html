@@ -1,0 +1,161 @@
+{% extends 'home/home.html' %} {% block content %}
+
+    <div class="container">
+        <!-- Start Date -->
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label for="startDate">Start Date</label>
+                        <input type="date" class="form-control" id="startDate" name="startDate" value="{{ startDate }}">
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label for="startDate">End Date</label>
+                        <input type="date" class="form-control" id="startDate" name="endDate" value="{{ endDate }}">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="filter">Filter</label>
+                        <button type="submit" class="btn btn-primary form-control">Filter</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col">
+
+                <!-- Table for the dataframe  -->
+                <div class="row">
+                    <div class="col-md-6 col-6">
+                        {% if dataframe %}
+                            <div class="card col text-center" style="border-radius: 20px">
+                                <div class="card-body">
+                                    <table class="table bg-white table-bordered" style="border-radius: 20px">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Date</th>
+                                            <th scope="col">Open</th>
+                                            <th scope="col">High</th>
+                                            <th scope="col">Low</th>
+                                            <th scope="col">Close</th>
+                                            <th scope="col">Volume</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for row in dataframe %}
+                                            <tr>
+                                                <td>{{ row.Date }}</td>
+                                                <td>{{ row.Open }}</td>
+                                                <td>{{ row.High }}</td>
+                                                <td>{{ row.Low }}</td>
+                                                <td>{{ row.Close }}</td>
+                                                <td>{{ row.Volume }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="card mt-4" style="border-radius: 20px">
+                                <div class="card-body">
+                                    <div class="mt-2">
+                                        {% if topnews %}
+                                            {% for article in topnews %}
+                                                <div class="card mb-3">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title">{{ article.title }}</h5>
+                                                        <p class="card-text">{{ article.summary }}</p>
+                                                        <p class="card-text"><small>{{ article.published }}</small></p>
+                                                        <a href="{{ article.link }}" class="btn btn-primary">Read
+                                                            More</a>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </div>
+
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6 col-6">
+                        <div class="card" style="border-radius: 20px">
+                            <div class="card-body">
+                                {{ fig|safe }}
+                            </div>
+                        </div>
+                        <div class="card mt-4" style="border-radius: 20px">
+                            <div class="card-body">
+                                {{ predicted_fig|safe }}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+        <div class="row ">
+            {#        {% if predicted_df %}#}
+            <!-- Table for the dataframe  -->
+            {#                <table class="table table-primary" style="border-radius: 5%">#}
+            {#                    <thead>#}
+            {#                        <tr>#}
+            {#                            <th scope="col">Date</th>#}
+            {#                            <th scope="col">Trend</th>#}
+            {#                            <th scope="col">Y Hat Lower</th>#}
+            {#                            <th scope="col">Y Hat Upper</th>#}
+            {#                            <th scope="col">Trend Lower</th>#}
+            {#                        </tr>#}
+            {#                    </thead>#}
+            {#                    <tbody>#}
+            {#                        {% for row in predicted_df %}#}
+            {#                            <tr>#}
+            {#                                <td>{{ row.ds }}</td>#}
+            {#                                <td>{{ row.trend }}</td>#}
+            {#                                <td>{{ row.yhat_lower }}</td>#}
+            {#                                <td>{{ row.yhat_upper }}</td>#}
+            {#                                <td>{{ row.trend_lower }}</td>#}
+            {#                            </tr>#}
+            {#                        {% endfor %}#}
+            {#                    </tbody>#}
+            {#                </table>#}
+            {#            {% endif %}#}
+            {#        <div class="col">#}
+            {#            {% if predicted_fig %}#}
+            {#            <div class="mx-auto">{{ predicted_fig|safe }}</div>#}
+            {#            {% endif %}#}
+            {#        </div>#}
+        </div>
+        {#<div class="container mt-2">#}
+        {#    <div class="row">#}
+        {#        <h1>News</h1>#}
+        {#        {% if topnews %}#}
+        {#            {% for article in topnews %}#}
+        {#                <div class="col-3 col-md-4">#}
+        {#                <div class="card mb-3">#}
+        {#                    <div class="card-body">#}
+        {#                        <h5 class="card-title">{{ article.title }}</h5>#}
+        {#                        <p class="card-text">{{ article.summary }}</p>#}
+        {#                        <p class="card-text"><small>{{ article.published }}</small></p>#}
+        {#                        <a href="{{ article.link }}" class="btn btn-primary">Read More</a>#}
+        {#                    </div>#}
+        {#                </div>#}
+        {#                </div>#}
+        {#            {% endfor %}#}
+        {#        {% endif %}#}
+        {#    </div>#}
+        {#</div>#}
+
+
+    </div>
+
+{% endblock %}
